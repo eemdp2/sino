@@ -6,38 +6,119 @@
     <title>Sinal Escolar</title>
     
     <link rel="stylesheet" href="style.css">
-    
     <link rel="manifest" href="manifest.json">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Sinal">
     <link rel="apple-touch-icon" href="icon-192.png">
+
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .painel {
+            display: flex;
+            height: 90vh;
+        }
+
+        /* 🎥 VÍDEO */
+        .area-video {
+            flex: 3;
+            background: black;
+        }
+
+        .area-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 🕒 INFO */
+        .area-info {
+            flex: 1;
+            padding: 20px;
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #relogio {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        /* 📱 Responsivo */
+        @media (max-width: 900px) {
+            .painel {
+                flex-direction: column;
+            }
+
+            .area-video {
+                height: 60vh;
+            }
+
+            .area-info {
+                height: 40vh;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Sinal Escolar Automático</h1>
-        
-        <div id="relogio">00:00:00</div>
-        
-        <button id="btnIniciar">ATIVAR SISTEMA</button>
-        <p id="status">Sistema Inativo. Clique em ativar.</p>
-        
-        <div class="proximo-toque">
-            Próximo sinal: <span id="proxSinal">--:--</span>
+
+        <div class="painel">
+            
+            <!-- 🎥 VÍDEO -->
+            <div class="area-video">
+                <video id="playerVideo" autoplay muted></video>
+            </div>
+
+            <!-- 🕒 INFO -->
+            <div class="area-info">
+                <div id="relogio">00:00:00</div>
+                
+                <button id="btnIniciar">ATIVAR SISTEMA</button>
+                <p id="status">Sistema Inativo. Clique em ativar.</p>
+                
+                <div class="proximo-toque">
+                    Próximo sinal: <span id="proxSinal">--:--</span>
+                </div>
+            </div>
+
         </div>
-
-        <!-- 🎥 PLAYER DE VÍDEO ADICIONADO -->
-        <video id="playerVideo" width="100%" height="360" controls autoplay muted></video>
-
     </div>
 
+    <!-- 🔊 ÁUDIOS (mantidos) -->
     <audio id="somIntro" src="sons/sinal.mp3"></audio>
-
     <audio id="somA1" src="sons/a1.mp3"></audio>
     <audio id="somA2" src="sons/a2.mp3"></audio>
     <audio id="somA3" src="sons/a3.mp3"></audio>
-    
     <audio id="somA4" src="sons/a4.mp3"></audio>
     <audio id="somA5" src="sons/a5.mp3"></audio>
     <audio id="somA6" src="sons/a6.mp3"></audio>
@@ -48,7 +129,7 @@
 
     <script src="script.js"></script>
 
-    <!-- 🎬 SCRIPT DO VÍDEO EM SEQUÊNCIA -->
+    <!-- 🎬 SEQUÊNCIA DE VÍDEOS -->
     <script>
         const player = document.getElementById("playerVideo");
         let index = 1;
@@ -60,6 +141,7 @@
 
             player.onended = () => {
                 index++;
+
                 const teste = new XMLHttpRequest();
                 teste.open("HEAD", `videos/video${index}.mp4`);
 
@@ -67,7 +149,7 @@
                     if (teste.status === 200) {
                         tocarVideo();
                     } else {
-                        index = 1; // reinicia sequência
+                        index = 1;
                         tocarVideo();
                     }
                 };
@@ -81,10 +163,10 @@
             };
         }
 
-        // inicia automaticamente
         window.addEventListener("load", tocarVideo);
     </script>
 
+    <!-- ⚙️ SERVICE WORKER -->
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
