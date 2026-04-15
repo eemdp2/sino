@@ -1,68 +1,125 @@
-body {
+/* RESET */
+* {
     margin: 0;
-    background: #000;
-    color: white;
-    font-family: Arial, sans-serif;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Layout principal */
+/* CORPO */
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* remove rolagem (ideal pra TV) */
+}
+
+/* CONTAINER */
+.container {
+    width: 100%;
+    height: 100vh;
+}
+
+/* TÍTULO */
+h1 {
+    text-align: center;
+    font-size: 2vw;
+    padding: 10px;
+    background: #000;
+}
+
+/* LAYOUT PRINCIPAL */
 .painel {
     display: flex;
-    height: 90vh;
+    width: 100%;
+    height: calc(100vh - 60px);
 }
 
-/* Área do vídeo (maior parte da tela) */
+/* 🎥 ÁREA DO VÍDEO */
 .area-video {
     flex: 3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: black;
 }
 
 .area-video video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 🔥 vídeo ocupa tudo sem distorcer */
+    object-fit: cover; /* ocupa tudo sem distorcer */
 }
 
-/* Área de informações */
+/* 🕒 ÁREA DE INFORMAÇÕES */
 .area-info {
     flex: 1;
-    padding: 20px;
     background: #111;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 25px;
+    padding: 20px;
+    text-align: center;
 }
 
-/* Relógio grande */
+/* RELÓGIO GRANDE (TV) */
 #relogio {
-    font-size: 48px;
-    margin-bottom: 20px;
+    font-size: 9vw; /* 🔥 escala automática */
+    font-weight: bold;
+    letter-spacing: 4px;
 }
 
-/* Botão */
+/* STATUS */
+#status {
+    font-size: 1.2vw;
+    color: #00ff88;
+}
+
+/* PRÓXIMO SINAL */
+.proximo-toque {
+    font-size: 1.5vw;
+}
+
+/* BOTÃO */
 button {
-    padding: 10px 20px;
-    font-size: 18px;
-    margin-bottom: 10px;
+    padding: 12px 25px;
+    font-size: 1.2vw;
+    border: none;
+    border-radius: 8px;
+    background: #007bff;
+    color: white;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-/* 📱 RESPONSIVO (TV vertical ou tela menor) */
+button:hover {
+    background: #0056b3;
+}
+
+/* 📱 RESPONSIVO (vertical ou telas menores) */
 @media (max-width: 900px) {
     .painel {
         flex-direction: column;
     }
 
     .area-video {
-        flex: none;
         height: 60vh;
     }
 
     .area-info {
         height: 40vh;
+    }
+
+    #relogio {
+        font-size: 15vw;
+    }
+
+    h1 {
+        font-size: 4vw;
+    }
+
+    button {
+        font-size: 3vw;
+    }
+
+    #status, .proximo-toque {
+        font-size: 3vw;
     }
 }
